@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Page Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
+    <script src="main.js"></script>
+    {% load static %}
+</head>
+<!-- <style>
+        .container{
+            width: 500px;
+            height: 500px;
+            background-color: silver;
+            text-align: center;
+        }
+    </style> -->
+<body>
+  
+
+    <div class='container'>
+        <form action='/process' method="POST">
+            {% csrf_token %}
+            Add a new word:
+            <input type='text' name='new_word'>
+
+            <div class='color'>
+                <p>Choose color</p>
+                <input type="radio" name="color" value="#f22d1f"> Red
+                <br>
+                <input type="radio" name="color" value="16b730"> Green
+                <br>
+                <input type="radio" name="color" value="#2b63db"> Blue
+
+                <input type="checkbox" name="bigfont">show in BIG font<br>
+
+                <input type = 'submit' value = "Add to Session">
+            </div>
+        </form>
+        <div class = 'text'>
+                <form action="/clear" >
+                    {% csrf_token %}
+                    <input type="submit" class="btn btn-primary clear" value="Delete Session">
+                </form>
+                    {% for i in request.session.words %}
+                    <!--  we are going to create a for loop going through each index through request.session.words -->
+                        {% if i.bigfont == True %} 
+                        <!-- if the checkbox is checked then it will return true, then will run the code below -->
+        
+                                <h2 style="color:{{i.color}}">{{ i.new_word }}</h2>
+                                <!-- it will change the font to h2 style and change the color depending on which color you clicked on (red, blue, green) -->
+                            {% else %}
+                                <h6 style="color:{{i.color}}">{{ i.new_word }}</h6>
+                            {% endif %}
+                            <p> Posted at {{ i.date }} </p>
+                    {% endfor %}
+                </div>
+    </div>
+</body>
+
+</html>
